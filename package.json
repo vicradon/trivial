@@ -33,7 +33,6 @@
     "@adonisjs/websocket-client": "^1.0.9",
     "alpinejs": "^2.8.0",
     "axios": "^0.21.1",
-    "mysql": "^2.18.1",
     "nanoid": "^3.1.20",
     "sqlite3": "^5.0.0"
   },

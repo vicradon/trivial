@@ -7,7 +7,6 @@ class UserSchema extends Schema {
     this.create("users", (table) => {
       table.increments();
       table.string("username", 254).notNullable().unique();
-      table.string("socket_id");
       table.timestamps();
     });
   }

@@ -43,7 +43,6 @@ class QuizController {
       return response.redirect("/");
     }
 
-    console.log(quizResults);
     const quiz_id = request.cookie("quiz_id");
     const quizesFromDB = await Quiz.find(quiz_id);
     const { quiz_with_answers, title } = quizesFromDB.toJSON();

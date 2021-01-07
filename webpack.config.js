@@ -12,7 +12,6 @@ module.exports = {
   entry: {
     home: "./resources/scripts/home.js",
     quiz: "./resources/scripts/quiz.js",
-    highscores: "./resources/scripts/highscores.js",
   },
   output: {
     path: __dirname + "/public/js",
