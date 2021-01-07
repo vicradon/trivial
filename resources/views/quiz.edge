@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quick Quiz</title>
+    
+    {{ style('css/bootstrap.min') }}
+    {{ style('css/style') }}
+  </head>
+  <body>
+    <div class="container" @set-current-quiz="currentQuiz = $event.detail.index" @set-selected-option="addQuestion($event.detail.questionIndex, $event.detail.option)" @show-finish-screen="showFinishScreen = true; submitAnswers()" x-data="{currentQuiz: 0, showFinishScreen: false}">
+        <h1>{{decode(title)}}</h1>
+      
+        <div class="d-flex align-items-baseline">
+            <p>Questions answered</p>
+            <p class="display-2 ms-2" x-text="currentQuiz"></p>/<p x-text="{{quizes.length}}"></p>
+        </div>
+        
+        <form id="end-quiz-form" action="/quiz/end" method="POST">
+            {{ csrfField() }}
+        </form>
+
+        @each(quiz in quizes)
+            <div :class="{'d-none': {{$loop.index}} !== currentQuiz}">
+                <div x-data="{selected:false, selectedOption: ''}">
+                    <h3>{{decode(quiz.question)}}</h3>
+                    @each(answer in quiz.answers)
+                        <div class="form-check">
+                            <input @change="selected = true; selectedOption ='{{ answer.option }}'" class="form-check-input" type="radio" name="flexRadioDefault" id="{{answer.option}}-{{answer.choice}}">
+                            <label class="form-check-label" for="{{answer.option}}-{{answer.choice}}">
+                                <div class="d-flex">
+                                    <p class="ms-2">{{decode(answer.option)}}</p>
+                                </div>
+                            </label>
+                        </div>
+                    @endeach
+
+                    <button
+                    class="btn btn-primary"
+                     @click="$dispatch('set-current-quiz', { index: {{$loop.index + 1}} }); $dispatch('set-selected-option', {option: selectedOption, questionIndex: {{$loop.index}} })" 
+                     :disabled="!selected"
+                     :class="{'d-none': {{quizes.length - 1}} === {{$loop.index}} }"
+                    >
+                    Next
+                    </button>
+                    <button
+                    class="btn btn-primary"
+                    @click="$dispatch('set-current-quiz', { index: {{$loop.index + 1}} }); $dispatch('set-selected-option', {option: selectedOption, questionIndex: {{$loop.index}} }); $dispatch('show-finish-screen')" 
+                    :disabled="!selected"
+                    :class="{'d-none': {{quizes.length - 1}} !== {{$loop.index}} }"
+                    >
+                    Finish
+                    </button>
+                </div>
+            </div>
+        @endeach
+
+        <div :class="{'d-none': showFinishScreen !== true }">
+            <h2>Congrats, you've completed the quiz</h2>
+            <img src="https://images.unsplash.com/photo-1578269174936-2709b6aeb913?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8d2lubmluZ3xlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="rophy">
+        </div>
+    </div>
+    {{ script('js/quiz.js') }}
+  </body>
+</html>
+
+{{--  
+    @click="$dispatch('set-current-quiz', { index: 7 })" 
+    :class="{'d-none': {{$loop.index}} !== currentQuiz}" 
+
+
+    <input @change="selected = true; selectedOption = {{$loop.index}}" class="form-check-input" type="radio" name="flexRadioDefault" id="{{question.choice}}">
+    <label class="form-check-label" for="{{question.choice}}">
+        <div class="d-flex">
+            <p class="ms-2">{{decode(question.option)}}</p>
+        </div>
+    </label>
+
+    <p @click="selected = true; selectedOption = {{$loop.index}}">{{decode(question.option)}}</p>
+
+
+    <div class="d-flex">
+                                <p class="ms-2">{{decode(question.option)}}</p>
+                            </div>
+--}}

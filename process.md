@@ -1,0 +1,3 @@
+- Create html and js files with same names
+- run the process of compressing javascript imports to the file with the same name as the html files
+- write tests for these stuff

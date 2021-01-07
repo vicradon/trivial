@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game End</title>
+</head>
+<body>
+    @each(quiz in quizes)
+    <div>
+        <h1>{{decode(quiz.question)}}</h1>
+        @each(answer in quiz.answers)
+        <div class="d-flex">
+            @if(answer.isCorrectAnswer)
+                <img src="/icons/check.svg" alt="checkmark">
+            @else
+                <img src="/icons/x.svg" alt="checkmark">
+            @endif
+
+            <p class="ms-2">{{decode(answer.option)}}</p>
+        </div>
+        @endeach
+    </div>
+    @endeach
+</body>
+</html>

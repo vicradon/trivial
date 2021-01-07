@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quick Quiz</title>
+    
+    {{ style('css/bootstrap.min') }}
+    {{ style('css/style') }}
+  </head>
+  <body>
+    <div class="container">
+      <div @change-category-id="categoryId = $event.detail.id" x-data="{ categoryId: 0}" x-init="$watch('categoryId', value => $dispatch('new-category-id', value))" id="home" class="flex-center flex-column">
+        <h1>Quick Quiz</h1>
+   
+        
+        <div class="my-4">
+
+          <form x-data="{categoryId:0}" action="/" method="POST" id="play-form">
+            {{ csrfField() }}
+            <label for="difficulty" class="form-label">Difficulty</label>
+            <select required name="difficulty" id="difficulty" class="form-select" aria-label="Default select example">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+
+            <label for="number-of-questions" class="form-label">Number of questions</label>
+            <input required name="number-of-question" value=5 type="number" min="1" max="50" class="form-control" id="number-of-questions" placeholder="e.g. 8">
+
+            <input required type="text" name="id" readonly hidden x-on:new-category-id.window ="categoryId = $event.detail" :value="categoryId">
+          </form>
+        </div>
+   
+          <div>
+            <h2>Categories</h2>
+            <div class="row justify-content-between">
+              @each(category in categories) 
+              <div @click="showPlayButton = true; $dispatch('change-category-id', { id: {{category.id}} })" x-data="{ showPlayButton: false }" class="cursor-pointer col-lg-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                  <img src="{{category.link}}" class="card-img-top" alt="{{category.name}}"> 
+                  <div class="card-body">
+                    <h5 class="card-title">{{category.name}}</h5>
+                    <button type="submit" form="play-form" x-show="showPlayButton" @click.away="showPlayButton = false" class="btn btn-primary">Play</button>
+                  </div>
+                </div>
+              </div>
+                @endeach  
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark p-4">
+      <h2 class="text-light">Attributions</h2>
+      <ol>
+        <li class="text-light">Music Photo by <a class="text-danger" href="https://unsplash.com/@rexcuando">Eric Nopanen</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Film Photo by <a class="text-danger" href="https://unsplash.com/@jakobowens1">Jakob Owens</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Computers Photo by <a class="text-danger" href="https://unsplash.com/@freestocks">freestocks</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Politics Photo by <a class="text-danger" href="https://unsplash.com/@historyhd">History in HD</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Gadgets Photo by <a class="text-danger" href="https://unsplash.com/@oria_hector">Héctor Martínez</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Art Photo by <a class="text-danger" href="https://unsplash.com/@timon_k">Timon Klauser</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Science and Nature Photo by <a class="text-danger" href="https://unsplash.com/@sairaa">SAIRA</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Gaming Photo by <a class="text-danger" href="https://unsplash.com/@jeshoots">JESHOOTS.COM</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
+        <li class="text-light">Trophy <a class="text-danger" href="https://unsplash.com/@giorgiotrovato">Giorgio Trovato</a> on <a href="https://unsplash.com/s/photos/winning">Unsplash</a></li>
+      </ol> 
+  </footer>
+
+  {{ script('js/home.js') }}
+  </body>
+</html>
