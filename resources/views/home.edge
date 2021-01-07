@@ -12,9 +12,7 @@
   <body>
     <div class="container">
       <div @change-category-id="categoryId = $event.detail.id" x-data="{ categoryId: 0}" x-init="$watch('categoryId', value => $dispatch('new-category-id', value))" id="home" class="flex-center flex-column">
-        <h1>Quick Quiz</h1>
-   
-        
+        <h1>Trivial</h1>
         <div class="my-4">
 
           <form x-data="{categoryId:0}" action="/" method="POST" id="play-form">
@@ -63,7 +61,7 @@
         <li class="text-light">Art Photo by <a class="text-danger" href="https://unsplash.com/@timon_k">Timon Klauser</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
         <li class="text-light">Science and Nature Photo by <a class="text-danger" href="https://unsplash.com/@sairaa">SAIRA</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
         <li class="text-light">Gaming Photo by <a class="text-danger" href="https://unsplash.com/@jeshoots">JESHOOTS.COM</a> on <a class="text-danger" href="https://unsplash.com/collections/51062337/quick-quiz">Unsplash</a></li>
-        <li class="text-light">Trophy <a class="text-danger" href="https://unsplash.com/@giorgiotrovato">Giorgio Trovato</a> on <a href="https://unsplash.com/s/photos/winning">Unsplash</a></li>
+        <li class="text-light">Trophy <a class="text-danger" href="https://unsplash.com/@giorgiotrovato">Giorgio Trovato</a> on <a class="text-danger" href="https://unsplash.com/s/photos/winning">Unsplash</a></li>
       </ol> 
   </footer>
 

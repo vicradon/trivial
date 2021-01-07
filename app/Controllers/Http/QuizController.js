@@ -26,13 +26,13 @@ class QuizController {
     return quiz_with_answers.map((quiz) => {
       return {
         question: quiz.question,
-        answers: [
+        answers: this.shuffle([
           ...quiz.incorrect_answers.map((ans) => ({
             text: ans,
             isCorrect: false,
           })),
           { isCorrect: true, text: quiz.correct_answer },
-        ],
+        ]),
       };
     });
   }
@@ -54,6 +54,25 @@ class QuizController {
       quizes,
       decode: decodeURIComponent,
     });
+  }
+  shuffle(array) {
+    var currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 }
 
