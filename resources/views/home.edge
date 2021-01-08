@@ -15,7 +15,7 @@
         <h1>Trivial</h1>
         <div class="my-4">
 
-          <form x-data="{categoryId:0}" action="/" method="POST" id="play-form">
+          <form x-data="{categoryId:0}" action="/" method="POST" id="initialize-quiz-form">
             {{ csrfField() }}
             <label for="difficulty" class="form-label">Difficulty</label>
             <select required name="difficulty" id="difficulty" class="form-select" aria-label="Default select example">
@@ -40,7 +40,7 @@
                   <img src="{{category.link}}" class="card-img-top" alt="{{category.name}}"> 
                   <div class="card-body">
                     <h5 class="card-title">{{category.name}}</h5>
-                    <button type="submit" form="play-form" x-show="showPlayButton" @click.away="showPlayButton = false" class="btn btn-primary">Play</button>
+                    <button type="submit" form="initialize-quiz-form" x-show="showPlayButton" @click.away="showPlayButton = false" class="btn btn-primary">Play</button>
                   </div>
                 </div>
               </div>

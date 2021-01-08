@@ -1,8 +1,4 @@
 "use strict";
-const Quiz = use("App/Models/Quiz");
-const axios = require("axios");
-const { nanoid } = require("nanoid");
-
 class HomeController {
   categories() {
     return [
@@ -56,72 +52,9 @@ class HomeController {
       },
     ];
   }
-  shuffle(array) {
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
-  prepareOptions(options) {
-    const optionLetters = ["A", "B", "C", "D"];
-    return options.map((option, index) => ({
-      choice: optionLetters[index],
-      option,
-    }));
-  }
   async index({ view }) {
     const categories = this.categories();
     return view.render("home", { categories });
-  }
-
-  async initializeQuiz({ view, request, response }) {
-    const {
-      difficulty,
-      "number-of-question": numberOfQuestions,
-      id,
-    } = request.all();
-
-    const quizResponse = await axios.get(
-      `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${id}&difficulty=${difficulty}&type=multiple&encode=url3986`
-    );
-
-    const user_id = request.cookie("user_id");
-
-    const quizes = quizResponse.data.results.map((quiz, index) => {
-      return {
-        question: quiz.question,
-        answers: this.prepareOptions(
-          this.shuffle([...quiz.incorrect_answers, quiz.correct_answer])
-        ),
-      };
-    });
-
-    if (!request.cookie("user_id")) {
-      response.cookie("user_id", nanoid());
-    }
-
-    const quiz = await Quiz.create({
-      title: `${quizResponse.data.results[0].category} Quiz`,
-      user_id,
-      quiz_with_answers: JSON.stringify(quizResponse.data.results),
-      quiz_without_answers: JSON.stringify(quizes),
-    });
-
-    response.cookie("quiz_id", quiz.id);
-    return response.redirect("/quiz", { quizes, decode: decodeURIComponent });
   }
 }
 

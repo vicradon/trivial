@@ -16,9 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-// Route.get("/", "HomeController.index").as("home");
 Route.get("/", "HomeController.index").as("home");
-Route.post("/", "HomeController.initializeQuiz");
+Route.post("/", "QuizController.initializeQuiz");
 Route.get("/quiz", "QuizController.index").as("quiz");
 Route.post("/quiz/end", "QuizController.endQuiz").as("quiz-end");
-Route.get("/highscores", "HighScoreController.index").as("highscores");
