@@ -1,8 +1,8 @@
 {
-  "name": "adonis-fullstack-app",
-  "version": "4.1.0",
+  "name": "trivial",
+  "version": "0.0.1",
   "adonis-version": "4.1.0",
-  "description": "The fullstack application boilerplate for Adonisjs",
+  "description": "Multiplayer Tic-Tac-Toe using websockets and AdonisJS",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
